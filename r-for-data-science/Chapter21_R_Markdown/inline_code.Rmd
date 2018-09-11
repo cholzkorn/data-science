@@ -1,0 +1,33 @@
+---
+title: "Inline Code"
+author: "Clemens"
+date: "August 2, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+smaller <- diamonds %>%
+  filter(carat <= 2.5)
+```
+
+We have data about `r nrow(diamonds)` diamonds. Only
+`r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. The
+distribution of the remainder is shown below:
+
+
+When inserting numbers into text, format() is your friend. It allows
+you to set the number of digits so you don't print to a ridiculous
+degree of accuracy, and a big.mark to make numbers easier to read.
+I'll often combine these into a helper function:
+
+```{r}
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+comma(3452345)
+comma(.12358124331)
+```
+

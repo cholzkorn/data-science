@@ -1,0 +1,17 @@
+---
+title: "knitr table"
+author: "Clemens"
+date: "August 2, 2018"
+output: html_document
+---
+```{r}
+library(tidyverse)
+
+mtcars[1:5, 1:10]
+
+knitr::kable(
+  mtcars[1:5, ],
+  caption = "A knitr table")
+
+```
+

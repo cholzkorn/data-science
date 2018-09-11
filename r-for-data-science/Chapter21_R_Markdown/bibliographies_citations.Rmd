@@ -1,0 +1,46 @@
+---
+title: "Bibliographies and Citations"
+author: "Clemens"
+date: "August 2, 2018"
+output: html_document
+bibliography: rmarkdown.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Pandoc can automatically generate citations and a bibliography in a
+number of styles. To use this feature, specify a bibliography file using
+the bibliography field in your file's header. The field should contain
+a path from the directory that contains your .Rmd file to the file that
+contains the bibliography file:
+
+You can use many common bibliography formats including BibLa-
+TeX, BibTeX, endnote, and medline.
+To create a citation within your .Rmd file, use a key composed of
+"@" and the citation identifer from the bibliography file. Then place
+the citation in square brackets. Here are some examples:
+
+Separate multiple citations with a `;`:
+Blah blah [@smith04; @doe99].
+You can add arbitrary comments inside the square brackets:
+Blah blah [see @doe99, pp. 33-35; also @smith04, ch. 1].
+Remove the square brackets to create an in-text citation:
+@smith04 says blah, or @smith04 [p. 33] says blah.
+Add a `-` before the citation to suppress the author's name:
+Smith says blah [-@smith04].
+
+When R Markdown renders your file, it will build and append a bib-
+liography to the end of your document. The bibliography will con-
+tain each of the cited references from your bibliography file, but it
+will not contain a section heading. As a result it is common practice
+to end your file with a section header for the bibliography, such as
+# References or # Bibliography.
+You can change the style of your citations and bibliography by refer-
+encing a CSL (citation style language) file to the csl field:
+bibliography: rmarkdown.bib
+csl: apa.csl
+As with the bibliography field, your CSL file should contain a path
+to the file. Here I assume that the CSL file is in the same directory as
+the .Rmd file. A good place to find CSL style files for common bib-
+liography styles is http://github.com/citation-style-language/styles.

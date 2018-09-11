@@ -1,0 +1,396 @@
+---
+title: "IBM Watson Analytics - Marketing Data Analysis"
+author: "Clemens Holzkorn"
+date: "August 19, 2018"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Before I begin with the Data Analysis and Prediction, I have to load the dependencies.
+
+```{r, warning=FALSE, results='hide', message=FALSE}
+library(tidyverse)
+library(xgboost)
+library(FNN)
+library(rpart)
+library(cluster)
+library(randomForest)
+library(modelr)
+library(caret)
+library(rmarkdown)
+library(knitr)
+```
+
+
+# Data Analysis
+
+## Loading the data
+
+The first step in any data project is, of course, loading the data.
+
+```{r cars}
+df <- read_csv("C:/Users/Clem/OneDrive/Informatik_Lernen/Statistics/SampleProjects/Prediction_Marketing/marketing.csv")
+df
+```
+
+### Data Tansformation
+
+After successfully importing the data without producing NAs, I convert the variables in our dataset to
+meaningful types, which may be useful for further analysis.
+
+MarketID and LocationID are arbitrary numbers and do not make a lot of sense as predictors.
+MarketSize, the type of promotion as well as the week make sense as factors, since
+week only takes on 4 discrete values.
+
+```{r}
+unique(df$week)
+
+df$MarketSize <- as.factor(df$MarketSize)
+df$Promotion <- as.factor(df$Promotion)
+df$week <- as.factor(df$week)
+```
+
+AgeOfStore takes on many different values and therefore makes sense as a number.
+
+```{r}
+length(unique(df$AgeOfStore))
+```
+
+## Data Exploration
+
+Since we are interested in the prediction of sales, we want to plot the different variables against
+the sales. To get a quick overview, we can use facets, which allow multiple plots on the same axes.
+
+In our first facet, we see that promotions tend to work equally in different markets,
+but Promotion number 2 seems to perform worse across all markets.
+
+```{r}
+ggplot(data = df) +
+  geom_boxplot(mapping = aes(x = Promotion, y = SalesInThousands, color = Promotion)) +
+  facet_wrap(~ MarketSize, nrow = nlevels(df$MarketSize)) +
+  theme(legend.position="none") +
+  coord_flip() +
+  ggtitle("Promotional campaigns across different markets")
+```
+
+This pattern needs further investigation. To feed our suspicion with information, we perform a t-test for difference in means between promotional campaign 2 and the other campaigns.
+
+We may reject the null hypothesis of equal means on all practical levels of significance,
+concluding that campaign 2 does indeed perform worse than the other two campaigns.
+
+```{r}
+grouped_promotion <- df$Promotion
+grouped_promotion[grouped_promotion == "3"] <- "1"
+
+prom_meantest <- as.tibble(cbind(df$SalesInThousands, grouped_promotion))
+prom_meantest$grouped_promotion <- as.factor(prom_meantest$grouped_promotion)
+
+t.test(V1 ~ grouped_promotion, data = prom_meantest)
+```
+
+In the another facet, we see that the influence of weeks on Sales might be very small.
+Only the sales in small markets could be affected by the influence of weeks
+
+```{r}
+ggplot(data = df) +
+  geom_boxplot(mapping = aes(x = week, y = SalesInThousands, color = week)) +
+  facet_wrap(~ MarketSize, nrow = nlevels(df$MarketSize)) +
+  theme(legend.position="none") +
+  coord_flip() +
+  ggtitle("Number of weeks across different markets")
+```
+
+In this next plot we can see that the age of the store does not have a clear impact
+on sales
+
+```{r}
+ggplot(data = df, aes(x = AgeOfStore, y = SalesInThousands)) +
+  geom_point() +
+  geom_smooth() +
+  ggtitle("Age of Store")
+```
+
+The main influence on sales seems to be the market size
+
+```{r}
+ggplot(data = df, aes(x = MarketSize, y = SalesInThousands)) +
+  geom_boxplot() +
+  ggtitle("Market size")
+```
+
+Accordingly, we calculate the means and medians of Sales, grouped by MarketSize
+and we see that the mean, as well as the median, differ greatly, with large markets
+being the most profitable on average.
+
+```{r}
+MSize_median <- group_by(df, MarketSize) %>%
+  summarize(median = median(SalesInThousands))
+
+MSize_mean <- group_by(df, MarketSize) %>%
+  summarize(mean = mean(SalesInThousands))
+
+MSize_location <- as.tibble(cbind(MSize_median[,1], MSize_median[,2], MSize_mean[,2]))
+MSize_location
+```
+
+With this information, we can move on to predicting sales.
+
+
+
+
+# Predictive Modeling
+
+## Choosing predictors, scaling and encoding
+
+Following variables may be useful as predictors in the modeling process:
+  - MarketSize
+  - AgeOfStore
+  - Promotion
+  - Week
+
+As a first step, functions for scaling and unscaling have to be created.
+
+```{r}
+scale0_1 <- function(x){(x-min(x))/(max(x)-min(x))}
+unscale <- function(a, x){a * (max(x) - min(x)) + min(x)} # where x is the original and a the scaled data
+```
+
+First, we build the model with factor variables for the linear regression
+the only variables that need to be changed are AgeOfStore and SalesInThousands (scaling).
+
+```{r}
+predictors <- tibble(MarketSize = df$MarketSize,
+                     Promotion = df$Promotion,
+                     AgeOfStore = scale0_1(df$AgeOfStore),
+                     week = df$week)
+independent <- scale0_1(df$SalesInThousands)
+mdf <- as.tibble(cbind(SalesInThousands = independent, predictors))
+```
+
+For the random forest and the boosted models we are going to build, we need to encode the factors,
+using "one hot encoding", meaning that the factors are being split into binary variables.
+
+```{r}
+s_predictors <- as.tibble(cbind(model.matrix(~ MarketSize -1, data = df),
+                                 model.matrix(~ week -1, data = df),
+                                 model.matrix(~ Promotion -1, data = df),
+                                 AgeOfStore = scale0_1(df$AgeOfStore)))
+```
+
+We also scale the independent variable and combine everything to a dataframe that will
+be the basis of our modeling process.
+
+```{r}
+s_sales <- scale0_1(df$SalesInThousands)
+
+s_mdf <- as.tibble(cbind(SalesInThousands = s_sales, s_predictors))
+```
+
+
+## Splitting
+
+For the purpose of cross-validation, splitting the data into a training set and a test set is necessary.
+
+```{r}
+# For the basic model
+
+n = nrow(mdf)
+trainIndex = sample(1:n, size = round(0.7*n), replace=FALSE)
+train = mdf[trainIndex ,]
+test = mdf[-trainIndex ,]
+
+# For the scaled and encoded model
+
+s_n = nrow(s_mdf)
+s_trainIndex = sample(1:n, size = round(0.7*n), replace=FALSE)
+s_train = s_mdf[trainIndex ,]
+s_test = s_mdf[-trainIndex ,]
+```
+
+## Model 1: Linear Regression
+
+A linear regression can provide explanatory insight other "black box methods" do not have. First
+we build the model and look at the coefficients. We again see that the MarketSize as well as the
+promotional campaigns have significant influence.
+
+```{r}
+lmodel <- lm(mdf, data = train)
+summary(lmodel)
+```
+
+Now we have a look at how good our predictions were.
+
+```{r}
+lm_pred <- predict(lmodel, test)
+
+lm_test_pred <- tibble(values = test$SalesInThousands, predictions = lm_pred,
+                       diff = test$SalesInThousands - lm_pred)
+
+lm_diffplot <- tibble(values = lm_test_pred$values, error = lm_test_pred$diff,
+                      cl = as.factor(test$MarketSize))
+
+ggplot(lm_diffplot, aes(y = error, x = values, color = cl)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  labs(color = "Market size") +
+  ggtitle("Prediction errors of the linear regression")
+```
+
+As a final step, we compute the RMSE for comparison with the other models.
+
+```{r}
+modelr::rmse(lmodel, data = df)
+```
+
+
+## Model 2: Random Forest
+
+Our next step up in predictive power will be computing a random forest. It will also provide us with
+information, which variables are important for our prediction.
+
+```{r}
+rf <- randomForest(s_train$SalesInThousands ~ ., data = s_train, importance = TRUE)
+```
+
+First we have a look at how good our predictions were: The errors are more evenly scattered around 0 than in the linear model, even though the random forest still does a mediocre job of predictions for large values.
+
+```{r}
+rf_pred <- predict(rf, s_test)
+rf_test_pred <- tibble(values = s_test$SalesInThousands, predictions = rf_pred,
+                                 diff = s_test$SalesInThousands - rf_pred)
+
+rf_diffplot <- tibble(values = rf_test_pred$values, error = rf_test_pred$diff)
+
+ggplot(rf_diffplot, aes(y = error, x = values)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+```
+
+The random Forest also computed the variable importance. This mainly confirms what
+we have seen in the Exploratory Analysis. The most important variables are
+MarketSize and Promotion (Promotional campaign #2 in particular).
+The age of the store is only of importance in regards to the Gini Decrease,
+but not regarding Accuracy.
+
+```{r}
+varImpPlot(rf, type = 1, main = "Accuracy Decrease")
+varImpPlot(rf, type = 2, main = "Gini Decrease")
+```
+
+Finally we compute the RMSE. As expected, the Random Forest outperforms the simple linear model by far.
+
+```{r}
+mean(sqrt(rf$mse))
+```
+
+
+## Model 3: Boosted Trees
+
+Finally, we try to get even better predictions with boosting. For that, we try
+a few different models with different settings for the shrinkage factor (eta)
+and the maximum depth of the tree (max_depth).
+
+First we set up the folds and the parameter list:
+
+```{r}
+ms_predictors <- data.matrix(s_predictors)
+ms_sales <- as.numeric(s_sales)
+
+N <- nrow(ms_predictors)
+fold_number <- sample(1:5, N, replace = TRUE)
+params <- data.frame(eta = rep(c(.1, .5, .9), 3),
+                     max_depth = rep(c(3, 6, 12), rep(3,3)))
+```
+
+Now we apply the preceding algorithm to compute the error for each model and each fold
+using five folds.
+
+```{r}
+error <- matrix(0, nrow = 9, ncol =5)
+for(i in 1:nrow(params)){
+  for (k in 1:5){
+    fold_idx <- (1:N)[fold_number == k]
+    xgb <- xgboost(data = ms_predictors, label = ms_sales,
+                   params = list(eta = params[i, "eta"],
+                                 max_depth = params[i, "max_depth"]),
+                   objective = "reg:linear", nrounds = 100, verbose = 0)
+    pred <- predict(xgb, ms_predictors)
+    error[i, k] <- mean(ms_sales - pred)
+  }
+}
+
+avg_error <- 100 * rowMeans(error)
+xgb_mdls_errors <- as.tibble(cbind(params, avg_error))
+xgb_mdls_errors_abs <- as.tibble(cbind(params, avg_error_abs = abs(avg_error)))
+```
+
+We get the smallest error for eta = 0.9 and max_depth = 6.
+
+```{r}
+xgb_winner <- arrange(xgb_mdls_errors_abs, avg_error_abs)[1,]
+xgb_winner
+```
+
+Therefore we now build this model and compute the rmse. Cross-Validation already took place,
+since the model was fitted on 5 different folds.
+
+```{r}
+xgb_finalmodel <- xgboost(data = ms_predictors, label = ms_sales,
+                          objective = "reg:linear", nrounds = 100,
+                          eta = xgb_winner$eta, xgb_winner$max_depth,
+                          verbose = 0)
+```
+
+I run the boosted model on the same test data the other models were tested on, so that we can compare the three models visually. In comparison to the other two models, the errors are smaller and spread out more evenly.
+
+```{r}
+ms_test <- data.matrix(s_test[,-1])
+
+xgb_pred <- predict(xgb_finalmodel, ms_test)
+
+xgb_test_pred <- tibble(values = s_test$SalesInThousands, predictions = xgb_pred,
+                       diff = s_test$SalesInThousands - xgb_pred)
+
+xgb_diffplot <- tibble(values = xgb_test_pred$values, error = xgb_test_pred$diff)
+
+ggplot(rf_diffplot, aes(y = error, x = values)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+```
+
+Finally, we compute the RMSE of the boosted model. This final model is recommended
+when trying to predict sales for new data.
+
+```{r}
+min(xgb_finalmodel$evaluation_log$train_rmse)
+```
+
+## Further ideas
+
+A final step we could take is weighting the data to achieve more evenly scattered errors
+and an even smaller RMSE. The values between 0.25 and 0.6 are evenly scattered and well-predicted.
+As we have seen throughout the analysis, the errors left and right of this interval are
+mainly driven by the MarketSize (Medium and Large).
+
+Weighting, however, will not solve this issue, since the observations Medium and Large markets
+already more numerous than those of Small ones. The "over-representation" of Medium Markets
+does not lead to a "predictive shift" in their favor.
+
+```{r}
+nrow(df[df$MarketSize == "Large",])
+nrow(df[df$MarketSize == "Small",])
+nrow(df[df$MarketSize == "Medium",])
+```
+
+
+# Conclusions
+
+The two largest influences on sales throughout the explanatory analysis and the models are the size of the market, as well as the promotional campaign. Promotional campaign number 2 performs worse than the other campaigns across all markets. Medium-sized markets do not achieve per-market sales as high as Small or Large markets. This fact needs further business investigation, since Medium markets are the most numerous by far.
+
+As anticipated, a gradient-boosted tree model outperformed linear regression and the random forest and should therefore be chosen for prediction. Due to the many categorical variables and small number of variables and observations, however, computed predictions on new data should be used with caution.

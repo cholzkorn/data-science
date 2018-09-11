@@ -1,0 +1,1436 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Classification in Python}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Classification: MNIST
+Dataset}\label{classification-mnist-dataset}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} MNIST is a popular dataset of handwriting records.}
+        \PY{c+c1}{\PYZsh{} scikit\PYZhy{}learn has code to fetch it}
+        \PY{k+kn}{import} \PY{n+nn}{sklearn}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k}{import} \PY{n}{fetch\PYZus{}mldata}
+        \PY{n}{mnist} \PY{o}{=} \PY{n}{fetch\PYZus{}mldata}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MNIST original}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{mnist}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:} \{'DESCR': 'mldata.org dataset: mnist-original',
+         'COL\_NAMES': ['label', 'data'],
+         'target': array([0., 0., 0., {\ldots}, 9., 9., 9.]),
+         'data': array([[0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                {\ldots},
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0],
+                [0, 0, 0, {\ldots}, 0, 0, 0]], dtype=uint8)\}
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Let\PYZsq{}s look at the arrays}
+        \PY{n}{X}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{mnist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{mnist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{target}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{X}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}4}]:} (70000, 784)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{y}\PY{o}{.}\PY{n}{shape}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:} (70000,)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} We want to display a record:}
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        
+        \PY{n}{some\PYZus{}digit} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{l+m+mi}{36000}\PY{p}{]}
+        \PY{n}{some\PYZus{}digit\PYZus{}image} \PY{o}{=} \PY{n}{some\PYZus{}digit}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{some\PYZus{}digit\PYZus{}image}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{matplotlib}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{binary}\PY{p}{,} \PY{n}{interpolation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nearest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_4_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} It looks like a 5 and indeed that\PYZsq{}s what the label tells us.}
+        \PY{n}{y}\PY{p}{[}\PY{l+m+mi}{36000}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} 5.0
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{} The MNIST data set is already split into test (last 10,000 images) and training (first 60,000 images) sets}
+        \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{60000}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{l+m+mi}{60000}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{60000}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{l+m+mi}{60000}\PY{p}{:}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} Let’s also shuffle the training set; this will guarantee that all cross\PYZhy{}validation folds will be similar}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        
+        \PY{n}{shuffle\PYZus{}index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{permutation}\PY{p}{(}\PY{l+m+mi}{60000}\PY{p}{)}
+        \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{shuffle\PYZus{}index}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{[}\PY{n}{shuffle\PYZus{}index}\PY{p}{]}
+\end{Verbatim}
+
+
+    \section{Training a Binary Classifier:
+SGDClassifier}\label{training-a-binary-classifier-sgdclassifier}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{c+c1}{\PYZsh{} We want to train a classifier that distinguishes between the classes \PYZdq{}5\PYZdq{} and \PYZdq{}not 5\PYZdq{}}
+         \PY{n}{y\PYZus{}train\PYZus{}5} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{5}\PY{p}{)} \PY{c+c1}{\PYZsh{} True for all 5s}
+         \PY{n}{y\PYZus{}test\PYZus{}5} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}test} \PY{o}{==} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} Next we have to actually train the classifier. In this case we pick the SGD (Stochastic Gradient Descent)}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{SGDClassifier}
+         
+         \PY{n}{sgd\PYZus{}clf} \PY{o}{=} \PY{n}{SGDClassifier}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:} SGDClassifier(alpha=0.0001, average=False, class\_weight=None, epsilon=0.1,
+                eta0=0.0, fit\_intercept=True, l1\_ratio=0.15,
+                learning\_rate='optimal', loss='hinge', max\_iter=None, n\_iter=None,
+                n\_jobs=1, penalty='l2', power\_t=0.5, random\_state=42, shuffle=True,
+                tol=None, verbose=0, warm\_start=False)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{c+c1}{\PYZsh{} Now we can use the classifier to detect images of the number 5}
+         \PY{c+c1}{\PYZsh{} We can try it with the image of the 5 we looked at before}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}12}]:} array([ True])
+\end{Verbatim}
+            
+    \section{Performance Measures: Accuracy (Caution!), Precision and
+Recall}\label{performance-measures-accuracy-caution-precision-and-recall}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} ACCURACY}
+         \PY{c+c1}{\PYZsh{} For measuring classification models, we may want to have more control over cross validation}
+         \PY{c+c1}{\PYZsh{} The following code implements cross\PYZhy{}validation for classification models}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{StratifiedKFold}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{base} \PY{k}{import} \PY{n}{clone}
+         
+         \PY{n}{skfolds} \PY{o}{=} \PY{n}{StratifiedKFold}\PY{p}{(}\PY{n}{n\PYZus{}splits}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{train\PYZus{}index}\PY{p}{,} \PY{n}{test\PYZus{}index} \PY{o+ow}{in} \PY{n}{skfolds}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{)}\PY{p}{:}
+             \PY{n}{clone\PYZus{}clf} \PY{o}{=} \PY{n}{clone}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{)}
+             \PY{n}{X\PYZus{}train\PYZus{}folds} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{train\PYZus{}index}\PY{p}{]}
+             \PY{n}{y\PYZus{}train\PYZus{}folds} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{[}\PY{n}{train\PYZus{}index}\PY{p}{]}\PY{p}{)}
+             \PY{n}{X\PYZus{}test\PYZus{}fold} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{test\PYZus{}index}\PY{p}{]}
+             \PY{n}{y\PYZus{}test\PYZus{}fold} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{[}\PY{n}{test\PYZus{}index}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{clone\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}folds}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}folds}\PY{p}{)}
+             \PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clone\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}fold}\PY{p}{)}
+             \PY{n}{n\PYZus{}correct} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{y\PYZus{}pred} \PY{o}{==} \PY{n}{y\PYZus{}test\PYZus{}fold}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{n\PYZus{}correct} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.9646
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.96775
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.96695
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{} Let’s use the cross\PYZus{}val\PYZus{}score() function to evaluate your SGDClassifier model using K\PYZhy{}fold cross\PYZhy{}validation,}
+         \PY{c+c1}{\PYZsh{} with three folds. (achieves the same results as the score above)}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{cross\PYZus{}val\PYZus{}score}
+         \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}14}]:} array([0.9646 , 0.96775, 0.96695])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{c+c1}{\PYZsh{} \PYZdq{}DUMB\PYZdq{} CLASSIFIER}
+         \PY{c+c1}{\PYZsh{} These accuracy values look good, but since 10\PYZpc{} of the dataset are 5s, simply guessing \PYZdq{}False\PYZdq{} every}
+         \PY{c+c1}{\PYZsh{} time will get us about 90\PYZpc{} accuracy. This demonstrates why accuracy is generally not the preferred}
+         \PY{c+c1}{\PYZsh{} performance measure.}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{base} \PY{k}{import} \PY{n}{BaseEstimator}
+         
+         \PY{k}{class} \PY{n+nc}{Never5Classifier}\PY{p}{(}\PY{n}{BaseEstimator}\PY{p}{)}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{pass}
+             \PY{k}{def} \PY{n+nf}{predict}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{bool}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Let\PYZsq{}s find out the accuracy of this model}
+         \PY{n}{never\PYZus{}5\PYZus{}clf} \PY{o}{=} \PY{n}{Never5Classifier}\PY{p}{(}\PY{p}{)}
+         \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{never\PYZus{}5\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}15}]:} array([0.90795, 0.90845, 0.91255])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} CONFUSION MATRIX}
+         \PY{c+c1}{\PYZsh{} A better way to evaluate the performance of a classifier is to look at the confusion matrix, i.e.}
+         \PY{c+c1}{\PYZsh{} the matrix that shows the number of times the classifier confused categories}
+         
+         \PY{c+c1}{\PYZsh{} First we have to do the cross\PYZhy{}validation predictions}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{cross\PYZus{}val\PYZus{}predict}
+         
+         \PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}predict}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Now we\PYZsq{}re ready to construct the confusion matrix}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{confusion\PYZus{}matrix}
+         \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}16}]:} array([[53931,   648],
+                [ 1366,  4055]], dtype=int64)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{c+c1}{\PYZsh{} PRECISION}
+         \PY{c+c1}{\PYZsh{} An interesting metric to look at is the accuracy of the positive predictions;}
+         \PY{c+c1}{\PYZsh{} this is called the precision of the classifier }
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{precision\PYZus{}score}
+         
+         \PY{n}{precision\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}17}]:} 0.8622156070593239
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{} RECALL (TRUE POSITIVE RATE)}
+         \PY{c+c1}{\PYZsh{} Another interesting metric to look at is the recall (TRUE positive rate), i.e. the rate}
+         \PY{c+c1}{\PYZsh{} of how often the classifier chooses TRUE when the label is TRUE}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{recall\PYZus{}score}
+         
+         \PY{n}{recall\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}27}]:} 0.7480169710385538
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{\PYZsh{} F1 SCORE}
+         \PY{c+c1}{\PYZsh{} The F1 score is the harmonic mean of precision and recall.}
+         \PY{c+c1}{\PYZsh{} It will only score high if both metrics are high.}
+         
+         \PY{c+c1}{\PYZsh{} The F1 score favors classifiers that have similar precision and recall. This is not always}
+         \PY{c+c1}{\PYZsh{} what you want: in some contexts you mostly care about precision, and in other con‐}
+         \PY{c+c1}{\PYZsh{} texts you really care about recall.}
+         
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{f1\PYZus{}score}
+         \PY{n}{f1\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}18}]:} 0.8010667720268669
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{} PRECISION/RECALL TRADEOFF}
+         \PY{c+c1}{\PYZsh{} We can explore the tradeoff between precision and recall by moving our classification threshold}
+         \PY{n}{y\PYZus{}scores} \PY{o}{=} \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{decision\PYZus{}function}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+         \PY{n}{y\PYZus{}scores}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}19}]:} array([89304.7823487])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{c+c1}{\PYZsh{} Setting the threshold to 0 makes every classification output True}
+         \PY{n}{threshold} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{y\PYZus{}some\PYZus{}digit\PYZus{}pred} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}scores} \PY{o}{\PYZgt{}} \PY{n}{threshold}\PY{p}{)}
+         \PY{n}{y\PYZus{}some\PYZus{}digit\PYZus{}pred}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}20}]:} array([ True])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{} Setting a higher threshold will change the boolean output}
+         \PY{n}{threshold} \PY{o}{=} \PY{l+m+mi}{200000}
+         \PY{n}{y\PYZus{}some\PYZus{}digit\PYZus{}pred} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}scores} \PY{o}{\PYZgt{}} \PY{n}{threshold}\PY{p}{)}
+         \PY{n}{y\PYZus{}some\PYZus{}digit\PYZus{}pred}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}21}]:} array([False])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{c+c1}{\PYZsh{} So which threshold should we use?}
+         
+         \PY{c+c1}{\PYZsh{} First off, we calculate the predictions of all instances of the training set }
+         \PY{n}{y\PYZus{}scores} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}predict}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{decision\PYZus{}function}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Now with these scores you can compute precision and recall for all possible thresholds using}
+         \PY{c+c1}{\PYZsh{} the precision\PYZus{}recall\PYZus{}curve() function:}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{precision\PYZus{}recall\PYZus{}curve}
+         
+         \PY{n}{precisions}\PY{p}{,} \PY{n}{recalls}\PY{p}{,} \PY{n}{thresholds} \PY{o}{=} \PY{n}{precision\PYZus{}recall\PYZus{}curve}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{} Finally we can plot the precision\PYZhy{}recall\PYZhy{}curve and choose the right threshold for our project}
+         \PY{k}{def} \PY{n+nf}{plot\PYZus{}precision\PYZus{}recall\PYZus{}vs\PYZus{}threshold}\PY{p}{(}\PY{n}{precisions}\PY{p}{,} \PY{n}{recalls}\PY{p}{,} \PY{n}{thresholds}\PY{p}{)}\PY{p}{:}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{thresholds}\PY{p}{,} \PY{n}{precisions}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Precision}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{thresholds}\PY{p}{,} \PY{n}{recalls}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Recall}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Threshold}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{upper left}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n}{plot\PYZus{}precision\PYZus{}recall\PYZus{}vs\PYZus{}threshold}\PY{p}{(}\PY{n}{precisions}\PY{p}{,} \PY{n}{recalls}\PY{p}{,} \PY{n}{thresholds}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{c+c1}{\PYZsh{} Another way of choosing the right values is plotting Precision and Recall directly against each other}
+         \PY{c+c1}{\PYZsh{} We see a huge drop at around 80\PYZpc{} recall and might want to choose a value just before that drop}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{recalls}\PY{p}{,} \PY{n}{precisions}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Recall}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Precision}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{\PYZsh{} DECIDING ON A THRESHOLD}
+         \PY{c+c1}{\PYZsh{} So let’s suppose you decide to aim for 90\PYZpc{} precision. You look up the first plot}
+         \PY{c+c1}{\PYZsh{} (zooming in a bit) and find that you need to use a threshold of about 70,000. To make}
+         \PY{c+c1}{\PYZsh{} predictions (on the training set for now), instead of calling the classifier’s predict()}
+         \PY{c+c1}{\PYZsh{} method, you can just run this code:}
+         \PY{n}{y\PYZus{}train\PYZus{}pred\PYZus{}90} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}scores} \PY{o}{\PYZgt{}} \PY{l+m+mi}{70000}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Let\PYZsq{}s check these predictions\PYZsq{}s precision...}
+         \PY{n}{precision\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred\PYZus{}90}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}25}]:} 0.9209390178089585
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{c+c1}{\PYZsh{} ... and recall}
+         \PY{n}{recall\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred\PYZus{}90}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}28}]:} 0.6295886367828814
+\end{Verbatim}
+            
+    \section{Performance Measures: ROC Curve and
+AUC}\label{performance-measures-roc-curve-and-auc}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{c+c1}{\PYZsh{} The ROC curve plots the true positive rate (another name for recall) against the false positive rate.}
+         
+         \PY{c+c1}{\PYZsh{} To plot the ROC curve, you first need to compute the TPR and FPR for various threshold}
+         \PY{c+c1}{\PYZsh{} values, using the roc\PYZus{}curve() function:}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{roc\PYZus{}curve}
+         \PY{n}{fpr}\PY{p}{,} \PY{n}{tpr}\PY{p}{,} \PY{n}{thresholds} \PY{o}{=} \PY{n}{roc\PYZus{}curve}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Then you can plot the FPR against the TPR using Matplotlib.}
+         \PY{k}{def} \PY{n+nf}{plot\PYZus{}roc\PYZus{}curve}\PY{p}{(}\PY{n}{fpr}\PY{p}{,} \PY{n}{tpr}\PY{p}{,} \PY{n}{label} \PY{o}{=} \PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{fpr}\PY{p}{,} \PY{n}{tpr}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{label}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{k\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{False Positive Rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{True Positive Rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{plot\PYZus{}roc\PYZus{}curve}\PY{p}{(}\PY{n}{fpr}\PY{p}{,} \PY{n}{tpr}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{c+c1}{\PYZsh{} One way to compare classifiers is to measure the area under the curve (AUC). A perfect classifier}
+         \PY{c+c1}{\PYZsh{} will have a ROC AUC equal to 1, whereas a purely random classifier will have a ROC AUC equal to 0.5.}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{roc\PYZus{}auc\PYZus{}score}
+         \PY{n}{roc\PYZus{}auc\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}30}]:} 0.9666768443525415
+\end{Verbatim}
+            
+    \section{Random Forest Classifier}\label{random-forest-classifier}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{c+c1}{\PYZsh{} Scikit classifiers generally have a decision\PYZus{}function() method or a predict\PYZus{}proba() method}
+         \PY{c+c1}{\PYZsh{} Random Forest Classifiers use the predict\PYZus{}proba() method, which returns an array containing a row per instance and a column}
+         \PY{c+c1}{\PYZsh{} per class, each containing the probability that the given instance belongs to the given class}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{RandomForestClassifier}
+         
+         \PY{n}{forest\PYZus{}clf} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+         \PY{n}{y\PYZus{}probas\PYZus{}forest} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}predict}\PY{p}{(}\PY{n}{forest\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{method}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{predict\PYZus{}proba}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{y\PYZus{}probas\PYZus{}forest}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}31}]:} array([[1. , 0. ],
+                [0.8, 0.2],
+                [1. , 0. ],
+                {\ldots},
+                [1. , 0. ],
+                [1. , 0. ],
+                [1. , 0. ]])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{c+c1}{\PYZsh{} But to plot a ROC curve, you need scores, not probabilities. A simple solution is to}
+         \PY{c+c1}{\PYZsh{} use the positive class’s probability as the score:}
+         \PY{n}{y\PYZus{}scores\PYZus{}forest} \PY{o}{=} \PY{n}{y\PYZus{}probas\PYZus{}forest}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{c+c1}{\PYZsh{} score = proba of positive class}
+         \PY{n}{fpr\PYZus{}forest}\PY{p}{,} \PY{n}{tpr\PYZus{}forest}\PY{p}{,} \PY{n}{thresholds\PYZus{}forest} \PY{o}{=} \PY{n}{roc\PYZus{}curve}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores\PYZus{}forest}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Now we are ready to plot the ROC Curve. It is useful to plot the first ROC Curve as well to see how they compare}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{fpr}\PY{p}{,} \PY{n}{tpr}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SGD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plot\PYZus{}roc\PYZus{}curve}\PY{p}{(}\PY{n}{fpr\PYZus{}forest}\PY{p}{,} \PY{n}{tpr\PYZus{}forest}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Random Forest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lower right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{c+c1}{\PYZsh{} The ROC curve hugs the upper left corner much more than the SGD. Let\PYZsq{}s calculate the AUC.}
+         \PY{n}{roc\PYZus{}auc\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores\PYZus{}forest}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}33}]:} 0.9931917845130176
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{c+c1}{\PYZsh{} We again want to check the Precision/Recall curve to set a threshold}
+         \PY{n}{precisions}\PY{p}{,} \PY{n}{recalls}\PY{p}{,} \PY{n}{thresholds} \PY{o}{=} \PY{n}{precision\PYZus{}recall\PYZus{}curve}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}scores\PYZus{}forest}\PY{p}{)}
+         
+         \PY{n}{plot\PYZus{}precision\PYZus{}recall\PYZus{}vs\PYZus{}threshold}\PY{p}{(}\PY{n}{precisions}\PY{p}{,} \PY{n}{recalls}\PY{p}{,} \PY{n}{thresholds}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{c+c1}{\PYZsh{} To check the other metrics we have to set a threshold between 0 and 1. Maximizing F1 we would choose 0.4}
+         \PY{n}{y\PYZus{}rf\PYZus{}pred} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}scores\PYZus{}forest} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.4}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{c+c1}{\PYZsh{} Precision score for the Random Forest}
+         \PY{n}{precision\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}rf\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}36}]:} 0.9689340101522843
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{c+c1}{\PYZsh{} Recall score for the Random Forest}
+         \PY{n}{recall\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}rf\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}37}]:} 0.8802803910717579
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{c+c1}{\PYZsh{} F1 score for the Random Forest}
+         \PY{n}{f1\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}5}\PY{p}{,} \PY{n}{y\PYZus{}rf\PYZus{}pred}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}38}]:} 0.9224821186932147
+\end{Verbatim}
+            
+    \section{Multi-Class Classification}\label{multi-class-classification}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{c+c1}{\PYZsh{} Some algorithms (such as Random Forest classifiers or naive Bayes classifiers) are}
+         \PY{c+c1}{\PYZsh{} capable of handling multiple classes directly. Others (such as Support Vector Machine}
+         \PY{c+c1}{\PYZsh{} classifiers or Linear classifiers) are strictly binary classifiers. However, there are vari‐}
+         \PY{c+c1}{\PYZsh{} ous strategies that you can use to perform multiclass classification using multiple}
+         \PY{c+c1}{\PYZsh{} binary classifiers.}
+         
+         \PY{c+c1}{\PYZsh{} Some algorithms (such as Support Vector Machine classifiers) scale poorly with the}
+         \PY{c+c1}{\PYZsh{} size of the training set, so for these algorithms One vs One is preferred since it is faster to}
+         \PY{c+c1}{\PYZsh{} train many classifiers on small training sets than training few classifiers on large}
+         \PY{c+c1}{\PYZsh{} training sets. For most binary classification algorithms, however, One vs All is preferred.}
+         
+         \PY{c+c1}{\PYZsh{} Scikit\PYZhy{}Learn detects when you try to use a binary classification algorithm for a multi‐}
+         \PY{c+c1}{\PYZsh{} class classification task, and it automatically runs OvA (except for SVM classifiers for}
+         \PY{c+c1}{\PYZsh{} which it uses OvO). Let’s try this with the SGDClassifier:}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}39}]:} array([5.])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} \PY{c+c1}{\PYZsh{} Under the hood, Scikit\PYZhy{}Learn actually trained 10 binary classifiers, got their decision scores for the}
+         \PY{c+c1}{\PYZsh{} image, and selected the class with the highest score.}
+         
+         \PY{c+c1}{\PYZsh{} To see that this is indeed the case, you can call the decision\PYZus{}function() method.}
+         \PY{n}{some\PYZus{}digit\PYZus{}scores} \PY{o}{=} \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{decision\PYZus{}function}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+         \PY{n}{some\PYZus{}digit\PYZus{}scores}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}40}]:} array([[-161285.30064461, -464486.91979956, -493994.48984971,
+                 -150221.01195021, -528694.44527893,   89304.7823487 ,
+                 -849805.63734937, -283871.1569745 , -649916.78647191,
+                 -727682.32907911]])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{c+c1}{\PYZsh{} The highest score is indeed the one corresponding to class 5:}
+         \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{some\PYZus{}digit\PYZus{}scores}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}41}]:} 5
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}42}]:} \PY{c+c1}{\PYZsh{} Check again which classes there are:}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{classes\PYZus{}}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}42}]:} array([0., 1., 2., 3., 4., 5., 6., 7., 8., 9.])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{c+c1}{\PYZsh{} Class nr. 5:}
+         \PY{n}{sgd\PYZus{}clf}\PY{o}{.}\PY{n}{classes\PYZus{}}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}43}]:} 5.0
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{c+c1}{\PYZsh{} If you want to force ScikitLearn to use one\PYZhy{}versus\PYZhy{}one or one\PYZhy{}versus\PYZhy{}all, you can use}
+         \PY{c+c1}{\PYZsh{} the OneVsOneClassifier or OneVsRestClassifier classes.}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{multiclass} \PY{k}{import} \PY{n}{OneVsOneClassifier}
+         
+         \PY{n}{ovo\PYZus{}clf} \PY{o}{=} \PY{n}{OneVsOneClassifier}\PY{p}{(}\PY{n}{SGDClassifier}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ovo\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+         \PY{n}{ovo\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}44}]:} array([5.])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{c+c1}{\PYZsh{} Since every decision score is checked against each other decision score, we have got 45 decisions}
+         \PY{n+nb}{len}\PY{p}{(}\PY{n}{ovo\PYZus{}clf}\PY{o}{.}\PY{n}{estimators\PYZus{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}45}]:} 45
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}46}]:} \PY{c+c1}{\PYZsh{} Training a RandomForestClassifier is just as easy:}
+         \PY{n}{forest\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+         \PY{n}{forest\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}46}]:} array([5.])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}47}]:} \PY{n}{forest\PYZus{}clf}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}47}]:} array([[0., 0., 0., 0., 0., 1., 0., 0., 0., 0.]])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{c+c1}{\PYZsh{} This time Scikit\PYZhy{}Learn did not have to run OvA or OvO because Random Forest}
+         \PY{c+c1}{\PYZsh{} classifiers can directly classify instances into multiple classes. You can call}
+         \PY{c+c1}{\PYZsh{} predict\PYZus{}proba() to get the list of probabilities that the classifier assigned to each}
+         \PY{c+c1}{\PYZsh{} instance for each class:}
+         \PY{n}{forest\PYZus{}clf}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}48}]:} array([[0., 0., 0., 0., 0., 1., 0., 0., 0., 0.]])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{c+c1}{\PYZsh{} Now of course you want to evaluate these classifiers. As usual, you want to use crossvalidation.}
+         \PY{c+c1}{\PYZsh{} Let’s evaluate the SGDClassifier’s accuracy using the cross\PYZus{}val\PYZus{}score() function:}
+         \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}49}]:} array([0.84743051, 0.86624331, 0.85087763])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{c+c1}{\PYZsh{} SCALING}
+         \PY{c+c1}{\PYZsh{} It gets over 84\PYZpc{} on all test folds. If you used a random classifier, you would get 10\PYZpc{}}
+         \PY{c+c1}{\PYZsh{} accuracy, so this is not such a bad score, but you can still do much better. For example,}
+         \PY{c+c1}{\PYZsh{} simply scaling the inputs (as discussed in Chapter 2) increases accuracy above 90\PYZpc{}:}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{StandardScaler}
+         \PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+         \PY{n}{X\PYZus{}train\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{float64}\PY{p}{)}\PY{p}{)}
+         \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}scaled}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}50}]:} array([0.91041792, 0.91449572, 0.90503576])
+\end{Verbatim}
+            
+    \section{Error Analysis: Confusion
+Matrix}\label{error-analysis-confusion-matrix}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{c+c1}{\PYZsh{} We will assume that you have found a promising model and you want to find ways to improve it.}
+         \PY{c+c1}{\PYZsh{} One way to do this is to analyze the types of errors it makes.}
+         
+         \PY{c+c1}{\PYZsh{} First, you can look at the confusion matrix. You need to make predictions using the}
+         \PY{c+c1}{\PYZsh{} cross\PYZus{}val\PYZus{}predict() function, then call the confusion\PYZus{}matrix() function, just like}
+         \PY{c+c1}{\PYZsh{} you did earlier:}
+         \PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}predict}\PY{p}{(}\PY{n}{sgd\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}scaled}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+         \PY{n}{conf\PYZus{}mx} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+         \PY{n}{conf\PYZus{}mx}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+C:\textbackslash{}Users\textbackslash{}Clem\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}stochastic\_gradient.py:128: FutureWarning: max\_iter and tol parameters have been added in <class 'sklearn.linear\_model.stochastic\_gradient.SGDClassifier'> in 0.19. If both are left unset, they default to max\_iter=5 and tol=None. If tol is not None, max\_iter defaults to max\_iter=1000. From 0.21, default max\_iter will be 1000, and default tol will be 1e-3.
+  "and default tol will be 1e-3." \% type(self), FutureWarning)
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}51}]:} array([[5729,    3,   21,   13,   12,   50,   43,    9,   41,    2],
+                [   2, 6474,   44,   26,    6,   42,   10,   11,  115,   12],
+                [  51,   35, 5325,  105,   88,   27,   91,   55,  165,   16],
+                [  42,   44,  135, 5361,    4,  215,   33,   57,  142,   98],
+                [  23,   27,   33,    7, 5398,   10,   48,   34,   81,  181],
+                [  69,   40,   32,  200,   80, 4574,  117,   30,  193,   86],
+                [  34,   22,   43,    3,   44,   93, 5628,    7,   44,    0],
+                [  22,   18,   63,   28,   54,   10,    4, 5829,   16,  221],
+                [  49,  148,   67,  160,   11,  149,   55,   28, 5048,  136],
+                [  38,   29,   23,   87,  192,   36,    3,  223,   85, 5233]],
+               dtype=int64)
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{c+c1}{\PYZsh{} That’s a lot of numbers. It’s often more convenient to look at an image representation}
+         \PY{c+c1}{\PYZsh{} of the confusion matrix, using Matplotlib’s matshow() function:}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{conf\PYZus{}mx}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{gray}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}52}]:} <function matplotlib.pyplot.show(*args, **kw)>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_55_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{c+c1}{\PYZsh{} This confusion matrix looks fairly good, since most images are on the main diagonal,}
+         \PY{c+c1}{\PYZsh{} which means that they were classified correctly. The 5s look slightly darker than the}
+         \PY{c+c1}{\PYZsh{} other digits, which could mean that there are fewer images of 5s in the dataset or that}
+         \PY{c+c1}{\PYZsh{} the classifier does not perform as well on 5s as on other digits. In fact, you can verify}
+         \PY{c+c1}{\PYZsh{} that both are the case.}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{c+c1}{\PYZsh{} Let’s focus the plot on the errors. First, you need to divide each value in the confusion}
+         \PY{c+c1}{\PYZsh{} matrix by the number of images in the corresponding class, so you can compare error}
+         \PY{c+c1}{\PYZsh{} rates instead of absolute number of errors (which would make abundant classes look unfairly bad):}
+         \PY{n}{row\PYZus{}sums} \PY{o}{=} \PY{n}{conf\PYZus{}mx}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+         \PY{n}{norm\PYZus{}conf\PYZus{}mx} \PY{o}{=} \PY{n}{conf\PYZus{}mx} \PY{o}{/} \PY{n}{row\PYZus{}sums}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{c+c1}{\PYZsh{} Now let’s fill the diagonal with zeros to keep only the errors, and let’s plot the result, where}
+         \PY{c+c1}{\PYZsh{} rows are actual classes}
+         \PY{c+c1}{\PYZsh{} columns are predicted classes}
+         \PY{n}{np}\PY{o}{.}\PY{n}{fill\PYZus{}diagonal}\PY{p}{(}\PY{n}{norm\PYZus{}conf\PYZus{}mx}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{matshow}\PY{p}{(}\PY{n}{norm\PYZus{}conf\PYZus{}mx}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{gray}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{c+c1}{\PYZsh{} INTERPRETATION}
+         \PY{c+c1}{\PYZsh{} The columns for classes 8 and 9 are quite bright, which tells you that many images get misclassified as}
+         \PY{c+c1}{\PYZsh{} 8s or 9s. Similarly, the rows for classes 8 and 9 are also quite bright, telling you that 8s}
+         \PY{c+c1}{\PYZsh{} and 9s are often confused with other digits. Conversely, some rows are pretty dark,}
+         \PY{c+c1}{\PYZsh{} such as row 1: this means that most 1s are classified correctly (a few are confused}
+         \PY{c+c1}{\PYZsh{} with 8s, but that’s about it). Notice that the errors are not perfectly symmetrical; for}
+         \PY{c+c1}{\PYZsh{} example, there are more 5s misclassified as 8s than the reverse.}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{c+c1}{\PYZsh{} Analyzing individual errors can also be a good way to gain insights on what your}
+         \PY{c+c1}{\PYZsh{} classifier is doing and why it is failing, but it is more difficult and time\PYZhy{}consuming.}
+         \PY{c+c1}{\PYZsh{} For example, let’s plot examples of 3s and 5s:}
+         
+         \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} HELPER FUNCTION \PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{}}
+         \PY{k}{def} \PY{n+nf}{plot\PYZus{}digits}\PY{p}{(}\PY{n}{instances}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{o}{*}\PY{o}{*}\PY{n}{options}\PY{p}{)}\PY{p}{:}
+             \PY{n}{size} \PY{o}{=} \PY{l+m+mi}{28}
+             \PY{n}{images\PYZus{}per\PYZus{}row} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{instances}\PY{p}{)}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{p}{)}
+             \PY{n}{images} \PY{o}{=} \PY{p}{[}\PY{n}{instance}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{)} \PY{k}{for} \PY{n}{instance} \PY{o+ow}{in} \PY{n}{instances}\PY{p}{]}
+             \PY{n}{n\PYZus{}rows} \PY{o}{=} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{instances}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{/}\PY{o}{/} \PY{n}{images\PYZus{}per\PYZus{}row} \PY{o}{+} \PY{l+m+mi}{1}
+             \PY{n}{row\PYZus{}images} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             \PY{n}{n\PYZus{}empty} \PY{o}{=} \PY{n}{n\PYZus{}rows} \PY{o}{*} \PY{n}{images\PYZus{}per\PYZus{}row} \PY{o}{\PYZhy{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{instances}\PY{p}{)}
+             \PY{n}{images}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{size}\PY{p}{,} \PY{n}{size} \PY{o}{*} \PY{n}{n\PYZus{}empty}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{n\PYZus{}rows}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{rimages} \PY{o}{=} \PY{n}{images}\PY{p}{[}\PY{n}{row} \PY{o}{*} \PY{n}{images\PYZus{}per\PYZus{}row} \PY{p}{:} \PY{p}{(}\PY{n}{row} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{*} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{p}{]}
+                 \PY{n}{row\PYZus{}images}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{rimages}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+             \PY{n}{image} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{row\PYZus{}images}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{image}\PY{p}{,} \PY{n}{cmap} \PY{o}{=} \PY{n}{matplotlib}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{binary}\PY{p}{,} \PY{o}{*}\PY{o}{*}\PY{n}{options}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} HELPER FUNCTION END \PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{}}
+         
+         \PY{n}{cl\PYZus{}a}\PY{p}{,} \PY{n}{cl\PYZus{}b} \PY{o}{=} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}
+         
+         \PY{n}{X\PYZus{}aa} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{cl\PYZus{}a}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{==} \PY{n}{cl\PYZus{}a}\PY{p}{)}\PY{p}{]}
+         \PY{n}{X\PYZus{}ab} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{cl\PYZus{}a}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{==} \PY{n}{cl\PYZus{}b}\PY{p}{)}\PY{p}{]}
+         \PY{n}{X\PYZus{}ba} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{cl\PYZus{}b}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{==} \PY{n}{cl\PYZus{}a}\PY{p}{)}\PY{p}{]}
+         \PY{n}{X\PYZus{}bb} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{cl\PYZus{}b}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{==} \PY{n}{cl\PYZus{}b}\PY{p}{)}\PY{p}{]}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{221}\PY{p}{)}\PY{p}{;} \PY{n}{plot\PYZus{}digits}\PY{p}{(}\PY{n}{X\PYZus{}aa}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{222}\PY{p}{)}\PY{p}{;} \PY{n}{plot\PYZus{}digits}\PY{p}{(}\PY{n}{X\PYZus{}ab}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{223}\PY{p}{)}\PY{p}{;} \PY{n}{plot\PYZus{}digits}\PY{p}{(}\PY{n}{X\PYZus{}ba}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{224}\PY{p}{)}\PY{p}{;} \PY{n}{plot\PYZus{}digits}\PY{p}{(}\PY{n}{X\PYZus{}bb}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]}\PY{p}{,} \PY{n}{images\PYZus{}per\PYZus{}row}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_60_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{c+c1}{\PYZsh{} The two 5×5 blocks on the left show digits classified as 3s, and the two 5×5 blocks on}
+         \PY{c+c1}{\PYZsh{} the right show images classified as 5s.}
+         
+         \PY{c+c1}{\PYZsh{} The reason is that we used a simple SGDClassifier, which is a linear model. All it does is assign a}
+         \PY{c+c1}{\PYZsh{} weight per class to each pixel, and when it sees a new image it just sums up the weighted pixel}
+         \PY{c+c1}{\PYZsh{} intensities to get a score for each class. So since 3s and 5s differ only by a few}
+         \PY{c+c1}{\PYZsh{} pixels, this model will easily confuse them.}
+         
+         \PY{c+c1}{\PYZsh{} SOLUTIONS:}
+             \PY{c+c1}{\PYZsh{} Use a more complex model}
+             \PY{c+c1}{\PYZsh{} Preprocess (e.g. rotate) the images}
+\end{Verbatim}
+
+
+    \section{Multilabel Classification}\label{multilabel-classification}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{c+c1}{\PYZsh{} We now want to train a classifier that can output multiple classes for a given input.}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors} \PY{k}{import} \PY{n}{KNeighborsClassifier}
+         
+         \PY{n}{y\PYZus{}train\PYZus{}large} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{7}\PY{p}{)}
+         \PY{n}{y\PYZus{}train\PYZus{}odd} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}train} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{y\PYZus{}multilabel} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{c\PYZus{}}\PY{p}{[}\PY{n}{y\PYZus{}train\PYZus{}large}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}odd}\PY{p}{]}
+         
+         \PY{n}{knn\PYZus{}clf} \PY{o}{=} \PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{p}{)}
+         \PY{n}{knn\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}multilabel}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}59}]:} KNeighborsClassifier(algorithm='auto', leaf\_size=30, metric='minkowski',
+                    metric\_params=None, n\_jobs=1, n\_neighbors=5, p=2,
+                    weights='uniform')
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{c+c1}{\PYZsh{} Now our model will output two booleans: First, if the number is large and second if the number is odd.}
+         \PY{c+c1}{\PYZsh{} Our 5 we had previously is not large, but odd.}
+         \PY{n}{knn\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{p}{[}\PY{n}{some\PYZus{}digit}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}60}]:} array([[False,  True]])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} There are many ways to evaluate a multilabel classifier, and selecting the right metric}
+        \PY{c+c1}{\PYZsh{} really depends on your project. For example, one approach is to measure the F1 score}
+        \PY{c+c1}{\PYZsh{} for each individual label (or any other binary classifier metric discussed earlier), then}
+        \PY{c+c1}{\PYZsh{} simply compute the average score. This code computes the average F1 score across all labels:}
+        \PY{n}{y\PYZus{}train\PYZus{}knn\PYZus{}pred} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}predict}\PY{p}{(}\PY{n}{knn\PYZus{}clf}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+        
+        \PY{n}{f1\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}knn\PYZus{}pred}\PY{p}{,} \PY{n}{average}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{macro}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} To weight the different classes, we could type average=\PYZdq{}weighted\PYZdq{} in the preceding code}
+\end{Verbatim}
+
+
+    \section{Multioutput Classification}\label{multioutput-classification}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{c+c1}{\PYZsh{} The multioutput classification is a classification task where each label can be multiclass}
+         
+         \PY{c+c1}{\PYZsh{} To illustrate this, let’s build a system that removes noise from images. It will take as}
+         \PY{c+c1}{\PYZsh{} input a noisy digit image, and it will (hopefully) output a clean digit image, repre‐}
+         \PY{c+c1}{\PYZsh{} sented as an array of pixel intensities, just like the MNIST images. Notice that the}
+         \PY{c+c1}{\PYZsh{} classifier’s output is multilabel (one label per pixel) and each label can have multiple}
+         \PY{c+c1}{\PYZsh{} values (pixel intensity ranges from 0 to 255). It is thus an example of a multioutput}
+         \PY{c+c1}{\PYZsh{} classification system.}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}74}]:} \PY{c+c1}{\PYZsh{} Let’s start by creating the training and test sets by taking the MNIST images and}
+         \PY{c+c1}{\PYZsh{} adding noise to their pixel intensities using NumPy’s randint() function. The target}
+         \PY{c+c1}{\PYZsh{} images will be the original images:}
+         \PY{k+kn}{import} \PY{n+nn}{random} \PY{k}{as} \PY{n+nn}{rnd}
+         
+         \PY{n}{noise} \PY{o}{=} \PY{n}{rnd}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+         \PY{n}{noise} \PY{o}{=} \PY{n}{rnd}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+         
+         \PY{n}{X\PYZus{}train\PYZus{}mod} \PY{o}{=} \PY{n}{X\PYZus{}train} \PY{o}{+} \PY{n}{noise}
+         \PY{n}{X\PYZus{}test\PYZus{}mod} \PY{o}{=} \PY{n}{X\PYZus{}test} \PY{o}{+} \PY{n}{noise}
+         \PY{n}{y\PYZus{}train\PYZus{}mod} \PY{o}{=} \PY{n}{X\PYZus{}train}
+         \PY{n}{y\PYZus{}test\PYZus{}mod} \PY{o}{=} \PY{n}{X\PYZus{}test}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}77}]:} \PY{c+c1}{\PYZsh{} Let’s take a peek at an image from the test set (yes, we’re snooping on the test data, so}
+         \PY{c+c1}{\PYZsh{} you should be frowning right now):}
+         \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+         
+         \PY{n}{some\PYZus{}index}\PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}mod}\PY{p}{[}\PY{l+m+mi}{27000}\PY{p}{]}
+         \PY{n}{some\PYZus{}index\PYZus{}image} \PY{o}{=} \PY{n}{some\PYZus{}index}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{some\PYZus{}index\PYZus{}image}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{matplotlib}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{binary}\PY{p}{,} \PY{n}{interpolation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nearest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_70_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Now let’s train the classifier and make it clean this image:}
+        \PY{n}{knn\PYZus{}clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}mod}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}mod}\PY{p}{)}
+        \PY{n}{clean\PYZus{}digit} \PY{o}{=} \PY{n}{knn\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}mod}\PY{p}{[}\PY{l+m+mi}{27000}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}102}]:} \PY{c+c1}{\PYZsh{} We want to display a record:}
+          \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+          \PY{n}{clean\PYZus{}digit\PYZus{}image} \PY{o}{=} \PY{n}{clean\PYZus{}digit}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{clean\PYZus{}digit\PYZus{}image}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{matplotlib}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{binary}\PY{p}{,} \PY{n}{interpolation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nearest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_72_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} THE LAST TWO CODE BLOCKS DON\PYZsq{}T WORK WELL!}
+\end{Verbatim}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

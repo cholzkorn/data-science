@@ -1,0 +1,61 @@
+---
+title: "R Markdown II"
+author: "Clemens"
+date: "August 2, 2018"
+output: html_document
+params:
+  start: !r lubridate::ymd("2015-01-01")
+  snapshot: !r lubridate::ymd_hms("2015-01-01 12:30:00")
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+As you can see, parameters are available within the code chunks as a
+read-only list named params.
+You can write atomic vectors directly into the YAML header. You
+can also run arbitrary R expressions by prefacing the parameter
+value with !r. This is a good way to specify date/time parameters.
+
+In RStudio, you can click the "Knit with Parameters" option in the
+Knit drop-down menu to set parameters, render, and preview the
+report in a single user-friendly step.
+
+Alternatively, if you need to produce many such parameterized
+reports, you can call rmarkdown::render() with a list of params:
+
+**R-Code**:
+library(rmarkdown)
+rmarkdown::render(
+"fuel-economy.Rmd",
+params = list(my_class = "suv"))
+
+
+This is particularly powerful in conjunction with purrr:pwalk().
+The following example creates a report for each value of class
+found in mpg. First we create a data frame that has one row for each
+class, giving the filename of report and the params it should be
+given:
+
+```{r}
+library(tidyverse)
+reports <- tibble(
+class = unique(mpg$class),
+filename = stringr::str_c("fuel-economy-", class, ".html"),
+params = purrr::map(class, ~ list(my_class = .)))
+reports
+```
+
+Then we match the column names to the argument names of ren
+der(), and use purrr's parallel walk to call render() once for each
+row:
+
+
+
+**R-Code**:
+reports %>%
+select(output_file = filename, params) %>%
+purrr::pwalk(rmarkdown::render, input = "fuel-economy.Rmd")
+
+

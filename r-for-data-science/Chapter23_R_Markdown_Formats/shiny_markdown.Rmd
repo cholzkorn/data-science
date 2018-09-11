@@ -1,0 +1,39 @@
+---
+title: "Shiny Markdown"
+author: "Clemens"
+date: "August 3, 2018"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+You can use the "input" functions to add interactive compo-
+nents to the document:
+
+```{r}
+library(shiny)
+
+textInput("name", "What is your name?")
+numericInput("age", "How old are you?", NA, min = 0, max = 150)
+```
+
+
+You can then refer to the values with input§name and input§age,
+and the code that uses them will be automatically rerun whenever
+they change.
+
+I can't show you a live Shiny app here because Shiny interactions
+occur on the server side. This means you can write interactive apps
+without knowing JavaScript, but it means that you need a server to
+run it on. This introduces a logistical issue: Shiny apps need a Shiny
+server to be run online. When you run Shiny apps on your own
+computer, Shiny automatically sets up a Shiny server for you, but
+you need a public-facing Shiny server if you want to publish this
+sort of interactivity online. That's the fundamental trade-off of
+Shiny: you can do anything in a Shiny document that you can do in
+R, but it requires someone to be running R.
+
+Learn more about Shiny at http://shiny.rstudio.com/.
