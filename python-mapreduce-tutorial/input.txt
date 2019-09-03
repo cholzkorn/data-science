@@ -1,0 +1,2 @@
+Im ersten Teil dieses Blogposts werde ich zeigen, wie ein einfaches Beispiel funktioniert.
+Im zweiten Teil dieses Blogposts werde ich eine einfache Hadoop-Variante davon vorstellen.

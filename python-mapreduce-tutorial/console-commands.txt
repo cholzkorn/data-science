@@ -1,0 +1,2 @@
+type input.txt|python map.py
+type input.txt | python map.py | sort | python reduce.py
