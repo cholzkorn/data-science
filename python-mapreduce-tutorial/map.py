@@ -3,6 +3,7 @@
 import sys
 
 def mapper():
+    # sys.stdin is the system standard input
     for line in sys.stdin:
         # strip() deletes leading and trailing characters, in this case " "
         # split() splits the words
