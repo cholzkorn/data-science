@@ -46,12 +46,12 @@ server <-
                  "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999")
         
         output$plot1 <- renderPlot({
-            ggplot(data = selectedData(), aes_string(x = input$xcol, y = input$ycol,
+                    ggplot(data = selectedData(), aes_string(x = input$xcol, y = input$ycol,
                                                      color=as.factor(clusters()$cluster))) +
                 scale_color_manual(values=pal) +
                 geom_point(show.legend=FALSE)
         })
-        
+            
     }
 
 # Run the application 
