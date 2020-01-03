@@ -17,3 +17,6 @@ Code Snippets for Data Transformation:
   -> Python: /python-useful-snippets
   
   -> R: /r-for-data-science
+  
+Useful links:
+  -> Knowledge Graph from text using spacy: https://www.analyticsvidhya.com/blog/2019/10/how-to-build-knowledge-graph-text-using-spacy/
